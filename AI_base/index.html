@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Student Details</h1>
+        <label for="academic-year">Enter the academic year:</label>
+        <input type="text" id="academic-year" name="academic-year" placeholder="e.g., First Year, Second Year, Third Year, Fourth Year">
+        <button onclick="getStudents()">Get Students</button>
+        <div class="student-details" id="student-details"></div>
+    </div>
+    <script>
+        function getStudents() {
+            var year = document.getElementById('academic-year').value;
+            fetch('/get_students?year=' + year)
+            .then(response => response.json())
+            .then(data => {
+                var studentDetails = document.getElementById('student-details');
+                studentDetails.innerHTML = '';
+                data.forEach(student => {
+                    var studentDiv = document.createElement('div');
+                    studentDiv.classList.add('student');
+                    studentDiv.innerHTML = `
+                        <h3>Name: ${student.name}</h3>
+                        <p>Sport: ${student.Sport}</p>
+                        <p>Academic Year: ${student.academic_year}</p>
+                        <p>Email: ${student.email}</p>
+                        <p>Phone Number: ${student["Ph.No"]}</p>
+                    `;
+                    studentDetails.appendChild(studentDiv);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
